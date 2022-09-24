@@ -1,0 +1,51 @@
+/*
+ * Originally created: 12/10/2014     最初创造日期：2014年10月12日
+ * Last updated: 24/09/2022           最近更新：2022年9月24日
+ * Author: Hamish Mitchell            作者：米良
+ */
+ 
+ class Program
+    {
+        static void Main(string[] args)
+        {
+            int adult = 2; //adult fare is $2.00
+            double student = 1.60; //student fare is $1.60
+            int child = 1; //child fare is $1.00
+            int noOfAdults;
+            double noOfStudents;
+            int noOfChildren;
+            int count = 0; //must have value
+            double total = 0.00; //must have value
+
+            Console.WriteLine("Hamilton Transit bus fare charges");
+            Console.WriteLine("---------------------------------");
+
+            //display fare prices
+            Console.WriteLine("Adult: $" + adult);
+            Console.WriteLine("Student: $" + student);
+            Console.WriteLine("Child: $" + child);
+            
+            //statements requiring input from user
+            Console.Write("\nHow many adults are there?: "); //prompts user to input number of adults
+            noOfAdults = int.Parse(Console.ReadLine()); //converts user input value into an integer
+            count++; //increments value by 1
+            total += noOfAdults * adult; //calculates number of adults from user input multiplied by adult fare price
+
+            Console.Write("How many students are there?: "); //prompts user to input number of students
+            noOfStudents = double.Parse(Console.ReadLine()); //converts user input value into a double. Note that noOfStudents was declared as double data type
+            count++; //increments value by 1
+            total += noOfStudents * student; //calculates number of students from user input multiplied by student fare price
+
+            Console.Write("How many children are there?: "); //prompts user to input number of children
+            noOfChildren = int.Parse(Console.ReadLine()); //converts user input value into an integer
+            count++; //increments value by 1
+            total += noOfChildren * child; //calculates number of children from user input multiplied by child fare price
+
+            Console.WriteLine("\nPrice for " + noOfAdults + " adults is $" + (adult * noOfAdults));
+            Console.WriteLine("Price for " + noOfStudents + " students is $" + (student * noOfStudents));
+            Console.WriteLine("Price for " + noOfChildren + " children is $" + (child * noOfChildren));
+
+            Console.WriteLine("The total is: $" + total);
+            Console.WriteLine("");
+        } //end Main()
+    } //end class
