@@ -1,0 +1,67 @@
+using System;
+
+/*
+ * Originally created: 12/10/2014       最初创造日期：2014年10月12日
+ * Last updated: 28/09/2022             最近更新：2022年9月28日
+ * Author: Hamish Mitchell              作者：米良
+ */
+ 
+ class Program
+    {
+        static void Main(string[] args)
+        {
+            int num;
+
+            Console.WriteLine("Grades");
+            Console.WriteLine("---------------------------------");
+
+            //Display grades
+            Console.WriteLine("Marks < 50: D");
+            Console.WriteLine("50 >= Marks < 60: C");
+            Console.WriteLine("60 >= Marks < 70: C+");
+            Console.WriteLine("70 >= Marks < 75: B");
+            Console.WriteLine("75 >= Marks < 80: B+");
+            Console.WriteLine("80 >= Marks < 90: A");
+            Console.WriteLine("90 >= Marks <= 100: A+");
+            Console.WriteLine("");
+
+            //Statements requiring input from user
+            Console.WriteLine("Program to calculate the grade");
+            Console.WriteLine("\nEnter a number between 0 and 100: "); //prompts user to input grade
+            num = int.Parse(Console.ReadLine()); //converts user input value into an integer
+
+            //Check the range of the grade
+            if (num <= 100 && num >= 90)
+            {
+                Console.WriteLine("Your grade is A+");
+            }
+            else if(num < 90 && num >= 80)
+            {
+                Console.WriteLine("Your grade is A");
+            }
+            else if (num < 80 && num >= 75)
+            {
+                Console.WriteLine("Your grade is B+");
+            }
+            else if (num < 75 && num >= 70)
+            {
+                Console.WriteLine("Your grade is B");
+            }
+            else if (num < 70 && num >= 60)
+            {
+                Console.WriteLine("Your grade is C+");
+            }
+            else if (num < 60 && num >= 50)
+            {
+                Console.WriteLine("Your grade is C");
+            }
+            else if (num < 50 && num >= 0)
+            {
+                Console.WriteLine("Your grade is D");
+            }
+            else //if user inputs a number outside the 0-100 range
+            {
+                Console.WriteLine("Invalid mark. The number must be between 0 and 100");
+            }
+        } //end Main()
+    } // end class
