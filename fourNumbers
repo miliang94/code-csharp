@@ -1,0 +1,55 @@
+/*
+ * Originally created: 8/08/2014        最初创造日期：2014年8月8日
+ * Last updated: 28/09/2022             最近更新：2022年9月28日
+ * Author: Hamish Mitchell              作者：米良
+ * 
+ * Create a program that will calculate the total of four numbers and the average.
+ * 创造一个程序，计算四个数字总数和平均
+ * 
+ * Process:
+ * 1. Ask for input
+ * 2. Add the input to a total
+ * 3. Add an increment to count the numbers
+ * 4. Repeat steps 1-3 four times
+ */
+ 
+ class Program
+    {
+        static void Main(string[] args)
+        {
+            //declare and initialise variables
+            int num1, num2, num3, num4;
+            double average;
+            int count = 0; //must have value
+            double total = 0.00; //must have value
+
+            //Statements requiring input from user
+            Console.WriteLine("Enter the first number: ");
+            num1 = int.Parse(Console.ReadLine());
+            //To find out how many numbers have been entered for the average value, use the ++ increment (count variable) rather than 
+            //simply dividing by 4
+            count++;
+            //When finding the total, use the += increment (total variable)
+            total += num1;
+
+            Console.WriteLine("Enter the second number: ");
+            num2 = int.Parse(Console.ReadLine());
+            count++;
+            total += num2;
+
+            Console.WriteLine("Enter the third number: ");
+            num3 = int.Parse(Console.ReadLine());
+            count++;
+            total += num3;
+
+            Console.WriteLine("Enter the fourth number: ");
+            num4 = int.Parse(Console.ReadLine());
+            count++;
+            total += num4;
+
+            Console.WriteLine("The total is: " + total);
+
+            average = total / count;
+            Console.WriteLine("The average score is: " + average);
+        } //end Main()
+    } //end class
