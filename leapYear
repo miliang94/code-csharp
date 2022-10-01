@@ -1,0 +1,30 @@
+using System;
+
+/*
+ * Originally created: 17/10/2014                   最初创造日期：2014年10月17日
+ * Last updated: 1/10/2022                          最近更新：2022年10月1日
+ * Author: Hamish Mitchell                          作者：米良
+ */
+ 
+ class Program
+    {
+        static int year;
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter a year: ");
+            year = int.Parse(Console.ReadLine());
+            LeapYear(year);
+            Console.ReadKey();
+        } //end main
+        static void LeapYear(int year)
+        {
+            if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
+            {
+                Console.WriteLine("{0} is a leap year", year);
+            }
+            else
+            {
+                Console.WriteLine("{0} is not a leap year", year);
+            }
+        } //end LeapYear
+    } //end class
