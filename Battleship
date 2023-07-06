@@ -1,0 +1,65 @@
+#include <iostream>
+using namespace std;
+
+/*
+ * Created: 29/11/2022 最初创造日期：2022年11月29日
+ * Updated: 6/07/2023 更新：2023年7月6日
+ * Author: Hamish Mitchell 作者：米良
+ */
+
+int main()
+{
+    //"1" has been put where the ships are
+    bool ships[6][6] = {
+        { 0, 0, 1, 0, 0, 0 },
+        { 0, 0, 0, 0, 1, 0 },
+        { 1, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0 },
+        { 0, 0, 1, 0, 0, 1 },
+        { 0, 0, 0, 0, 0, 0 }
+    }; //end bool
+
+    //Declare variables
+    int hits = 0; //how many hits the player has
+    int numberOfTurns = 0; //how many turns the player has played
+    int numberOfShips = 5; //how many ships there are
+
+    cout << "Battleship\n\n";
+
+    // Allow the player to keep going until they have hit all five ships
+    while (hits < numberOfShips) {
+        int row, column;
+
+        cout << "Selecting coordinates\n";
+
+        //Ask player for a row
+        cout << "Choose a row number between 0 and 5: ";
+        cin >> row;
+
+        //Ask player for a column
+        cout << "Choose a column number between 0 and 5: ";
+        cin >> column;
+
+        //Check if a ship exists in those coordinates
+        if (ships[row][column]) {
+            //If a player hits a ship, remove it by setting the value to 0
+            ships[row][column] = 0;
+
+            //Increase hit counter
+            hits++;
+
+            //Tell player they have hit a ship and how many are left
+            cout << "Hit! " << (numberOfShips - hits) << " left.\n\n";
+        } else {
+            //Tell player they missed
+            cout << "Miss\n\n";
+        } //end if
+
+        //Count how many turns the player has taken
+        numberOfTurns++;
+    } //end while
+
+    cout << "You win!\n";
+    cout << "You won in " << numberOfTurns << " turns\n";
+    return 0;
+} //end main
