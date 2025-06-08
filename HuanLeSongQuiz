@@ -1,0 +1,121 @@
+using System;
+
+/*
+ * Created: 9/07/2023 最初创造日期：2023年7月9日
+ * Updated: 17/07/2023 更新：2023年7月17日
+ * Author: Hamish Mitchell 作者：米良
+ */
+
+namespace QuizProgram
+{
+    class Program
+    {
+        static void Main()
+        {
+            //Create questions
+            string[] questions =
+            {
+                "What city is the TV series set in?", //1
+                "Where does Qiu Yingying work after losing her office job?", //2
+                "Qu Xiaoxiao's boyfriend does what occupation?", //3
+                "How many episodes are in the second season?", //4
+                "Which girl's family resides in Nantong?", //5
+                "In the first season who does Guan Juer develop a crush on?", //6
+                "How many of the five women live in room 2202?", //7
+                "As a child where was Andy taken abroad for adoption?", //8
+                "Fan Shengmei's character is played by which actress?", //9
+                "And last but not least, who is my personal favourite of the five women?" //10
+            };
+
+            //Create answers
+            string[] answers =
+            {
+                "A. Beijing \nB. Shanghai \nC. Guangzhou", //1
+                "A. Cafe \nB. Book shop \nC. Post office", //2
+                "A. Engineer \nB. Doctor \nC. Teacher", //3
+                "A. 45 \nB. 50 \nC. 55", //4
+                "A. Guan Juer \nB. Andy \nC. Fan Shengmei", //5
+                "A. Zhao Qiping \nB. Brother Lin \nC. Wang Baichuan", //6
+                "A. 1 \nB. 2 \nC. 3", //7
+                "A. Canada \nB. USA \nC. Singapore", //8
+                "A. Jiang Xin \nB. Wang Ziwen \nC. Liu Tao", //9
+                "A. Guan Juer \nB. Qu Xiaoxiao \nC. Qiu Yingying" //10
+            };
+
+            //State correct answers for each question
+            int[] correctAnswers =
+            {
+                1, //1
+                0, //2
+                1, //3
+                2, //4
+                2, //5
+                0, //6
+                2, //7
+                1, //8
+                0, //9
+                0 //10
+            };
+            int playerScore = 0;
+
+            Console.WriteLine("Hello! This is a quiz about the Chinese TV series 'Ode to Joy'");
+            Console.WriteLine("");
+            Console.WriteLine("See if you can answer all 10 questions correctly");
+            for (int i = 0; i < questions.Length; i++)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Question " + (i + 1) + ": " + questions[i]);
+                Console.WriteLine(answers[i]);
+                Console.Write("Please enter your answer (A, B or C): ");
+                string playerAnswer = Console.ReadLine();
+
+                //Validate answers
+                if (string.Equals(playerAnswer, "A", StringComparison.OrdinalIgnoreCase) && correctAnswers[i] == 0)
+                {
+                    playerScore++;
+                }
+                else if (string.Equals(playerAnswer, "B", StringComparison.OrdinalIgnoreCase) && correctAnswers[i] == 1)
+                {
+                    playerScore++;
+                }
+                else if (string.Equals(playerAnswer, "C", StringComparison.OrdinalIgnoreCase) && correctAnswers[i] == 2)
+                {
+                    playerScore++;
+                }
+                else
+                {
+                    Console.WriteLine("\nError. Not a valid input, please enter valid input");
+                }
+                //If user selects a number outside the 1-6 range
+            } //end for
+
+            //Display score to user
+            Console.WriteLine("");
+            Console.WriteLine("Quiz complete! Your score is: " + playerScore + "/" + questions.Length);
+            Console.WriteLine("------------------------------------------------------------");
+            Console.WriteLine("See answers below:");
+            Console.ReadKey();
+            //Think of another/simplier method for the following (without having to repeat the answers):
+            Console.WriteLine("Question 1: " + questions[0]);
+            Console.WriteLine("Answer: B. Shanghai");
+            Console.WriteLine("Question 2: " + questions[1]);
+            Console.WriteLine("Answer: A. Cafe");
+            Console.WriteLine("Question 3: " + questions[2]);
+            Console.WriteLine("Answer: B. Doctor");
+            Console.WriteLine("Question 4: " + questions[3]);
+            Console.WriteLine("Answer: C. 55 episodes");
+            Console.WriteLine("Question 5: " + questions[4]);
+            Console.WriteLine("Answer: C. Fan Shengmei");
+            Console.WriteLine("Question 6: " + questions[5]);
+            Console.WriteLine("Answer: A. Zhao Qiping");
+            Console.WriteLine("Question 7: " + questions[6]);
+            Console.WriteLine("Answer: C. 3");
+            Console.WriteLine("Question 8: " + questions[7]);
+            Console.WriteLine("Answer: B. USA");
+            Console.WriteLine("Question 9: " + questions[8]);
+            Console.WriteLine("Answer: A. Jiang Xin");
+            Console.WriteLine("Question 10: " + questions[9]);
+            Console.WriteLine("Answer: A. Guan Juer :)");
+        } //end main
+    } //end class
+}
