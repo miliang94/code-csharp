@@ -1,0 +1,242 @@
+using System; //using System means that we can use classes from the System namespace
+using System.Linq; //other useful array methods, such as Min, Max, and Sum, can be found in the System.Linq namespace
+
+namespace HelloWorld
+{
+    class Program
+        /*
+         * class is a container for data and methods, which brings functionality to your program. Every line of code that runs in 
+         * C# must be inside a class. In our example, we named the class Program
+         */
+    {
+        static void Main(string[] args)
+            /*
+             * Another thing that always appear in a C# program, is the Main method. Any code inside its curly brackets {} will be 
+             * executed. You don't have to understand the keywords before and after Main. You will get to know them bit by bit while 
+             * reading this tutorial.
+            */
+        {
+            Console.Write("Hello\nWorld!");
+            Console.Write("I will print on the same line.");
+            Console.WriteLine(3 + 3); //outputs 6
+
+            /*
+             * You can also declare a variable without assigning the value, and assign the value later:
+            int myNum;
+            myNum = 15;
+            Console.WriteLine(myNum);
+            */
+
+            string firstName = "Hamish";
+            string middleName = "Tait";
+            string lastName = "Mitchell";
+            string name = firstName + " " + lastName;
+            Console.WriteLine(name);
+            string fullName = $"My full name is: {firstName} {middleName} {lastName}";
+            Console.WriteLine(fullName);
+
+            /*
+             * int x = 5;
+             * int y = 6;
+             * Console.WriteLine(x + y); // Print the value of x + y
+             */
+
+            int x = 5, y = 6, z = 50;
+            Console.WriteLine(x + " " + y + " and " + z + " = " + (x + y + z)); //outputs 61
+
+            /*
+             * You can also assign the same value to multiple variables in one line:
+             * int x, y, z;
+             * x = y = z = 50;
+             * Console.WriteLine(x + y + z);
+             */
+
+            //You should use a floating point type whenever you need a number with a decimal, such as 9.99 or 3.14515
+            float myNumA = 5.75F; //value should end with F for floats
+            Console.WriteLine(myNumA);
+
+            double myNumB = 19.99D; //value should end with D for doubles
+            Console.WriteLine(myNumB);
+
+            //Scientific numbers - A floating point number can also be a scientific number with an "e" to indicate the power of 10
+            float f1 = 35e3F; //outputs 35000
+            double d1 = 12E4D; //outputs 120000
+            Console.WriteLine(f1);
+            Console.WriteLine(d1);
+
+            bool isCSharpFun = true;
+            bool isFishTasty = false;
+            Console.WriteLine("Is C# fun? " + isCSharpFun);   // Outputs True
+            Console.WriteLine("Is fish tasty? " + isFishTasty);   // Outputs False
+
+            //The char data type is used to store a single character. The character must be surrounded by single quotes, like 'A' or 'c':
+            char myGrade = 'B';
+            Console.WriteLine("My grade is " + myGrade);
+
+            //Implicit Casting
+            int myInt = 9;
+            double myDouble = myInt;       // Automatic casting: int to double
+
+            Console.WriteLine(myInt);      // Outputs 9
+            Console.WriteLine(myDouble);   // Outputs 9
+
+            //Explicit Casting
+            double myDoubleA = 9.78;
+            int myIntA = (int)myDouble;    // Manual casting: double to int
+
+            Console.WriteLine(myDoubleA);   // Outputs 9.78
+            Console.WriteLine(myIntA);      // Outputs 9
+
+
+            /*
+             * Type Conversion methods
+             * It is also possible to convert data types explicitly by using built-in methods, such as Convert.ToBoolean, 
+             * Convert.ToDouble, Convert.ToString, Convert.ToInt32(int) and Convert.ToInt64(long):
+             */
+           
+            int myIntB = 10;
+            double myDoubleB = 5.25;
+            bool myBool = true;
+
+            Console.WriteLine(Convert.ToString(myIntB));    // convert int to string, outputs 10
+            Console.WriteLine(Convert.ToDouble(myIntB));    // convert int to double, outputs 10
+            Console.WriteLine(Convert.ToInt32(myDoubleB));  // convert double to int, outputs 5
+            Console.WriteLine(Convert.ToString(myBool));   // convert bool to string, outputs 'true'
+
+            // Type your username and press enter
+            //Console.Write("Enter username: ");
+
+            // Create a string variable and get user input from the keyboard and store it in the variable
+            //string userName = Console.ReadLine();
+
+            // Print the value of the variable (userName), which will display the input value
+            //Console.WriteLine("Username is: " + userName);
+
+            //Console.WriteLine("Enter your age:");
+            //int age = Convert.ToInt32(Console.ReadLine());
+            //Console.WriteLine("Your age is: " + age);
+
+            int time = 17;
+            if (time < 18)
+            {
+                Console.WriteLine("Good day.");
+            }
+            else
+            {
+                Console.WriteLine("Good evening.");
+            }
+
+            //Same output as above
+            string result = (time < 18) ? "Good day." : "Good evening.";
+            Console.WriteLine(result);
+
+            int i = 0; //starting point
+            while (i < 9)
+            {
+                Console.WriteLine(i); //the code in the loop will run, over and over again, as long as a variable (i) is less than 9
+                i++;
+            }
+
+            string[] cars = {"Volvo", "BMW", "Ford", "Mazda", "Hyundai", "Toyota" };
+            Console.WriteLine(cars[0]); // Outputs Volvo
+            Console.WriteLine(cars.Length); //outputs 6
+            //The following Example outputs all elements in the cars array:
+            for (int k = 0; k < cars.Length; k++)
+            {
+                Console.WriteLine(cars[k]);
+            }
+            //There is also a foreach loop, which is used exclusively to loop through elements in an array:
+            /*foreach (string i in cars)
+            {
+                Console.WriteLine(i);
+            }*/
+            //There are many array methods available, for Example Sort(), which sorts an array alphabetically or in an ascending order:
+            /*Array.Sort(cars);
+            foreach (string i in cars)
+            {
+                Console.WriteLine(i);
+            }*/
+
+            //Sort an int
+            int[] myNumbers = { 5, 1, 8, 9, 4, 7 };
+            Array.Sort(myNumbers);
+            Console.WriteLine("No of numbers in array: " + myNumbers.Length);
+            Console.Write("Smallest to largest: ");
+            foreach (int l in myNumbers)
+            {
+                Console.Write(l + " ");
+            }
+            Console.WriteLine("");
+            Console.WriteLine("The biggest number is: " + myNumbers.Max());  // returns the largest value
+            Console.WriteLine("The smallest number is: " + myNumbers.Min());  // returns the smallest value
+            Console.WriteLine("The total of all numbers in the array is: " + myNumbers.Sum());  // returns the sum of elements
+
+            /*// Declare an array
+            string[] colours;
+            // Add values, using new
+            colours = new string[] { "Blue", "Red", "Yellow" };
+            Console.WriteLine(colours[2]); // Outputs Yellow
+            Console.WriteLine(colours.Length); //outputs 3*/
+
+            //call FirstNames method, make sure to insert data inside the brackets as declared in the method
+            FirstNames("Bob", 5);
+            FirstNames("Sam", 8);
+            FirstNames("Tom", 11);
+            Countries(); //UK appears by default
+            Countries("Sweden");
+            Console.WriteLine(MyMethod(4)); //outputs 9
+
+            //call Child method, make sure to insert data inside the brackets as declared in the method
+            Child(child3: "John", child1: "Liam", child2: "Tom");
+
+            //call PlusMethodInt and PlusMethodDouble methods
+            int myNum1 = PlusMethod(8, 5, 7); //declare variable, equal to calling the method and inserting numbers
+            double myNum2 = PlusMethod(4.3, 6.28); //declare variable, equal to calling the method and inserting numbers
+            Console.WriteLine("Int: " + myNum1);
+            Console.WriteLine("Double: " + myNum2);
+
+        } //end Main
+
+        static void FirstNames(string fname, int age) //declare variable (parameter) inside brackets of method
+        {
+            Console.WriteLine(fname + " Jones " + age);
+        } //end FirstNames
+
+        static void Countries(string country = "UK" /*optional parameter*/)
+            //You can also use a default parameter value, by using the equals sign (=). If we call the method without an argument,it uses 
+            //the default value ("UK"):
+        {
+            Console.WriteLine(country);
+        } //end Countries
+
+        static int MyMethod(int x)
+            /*
+             * The void keyword, used in the examples above, indicates that the method should not return a value.If you want the method 
+             * to return a value, you can use a primitive data type (such as int or double) instead of void, and use the return keyword 
+             * inside the method:
+            */
+        {
+            return 5 + x;
+        } //end MyMethod
+
+        static void Child(string child1, string child2, string child3)
+        {
+            Console.WriteLine("The youngest child is: " + child3);
+        } //end Child
+
+
+        //Method overloading - Instead of defining two methods that should do the same thing, it is better to overload one. We overload the 
+        //PlusMethod method to work for both int and double:
+        static int PlusMethod(int x, int y, int z)
+        {
+            return x + y + z;
+        } //end PlusMethodInt
+
+        static double PlusMethod(double x, double y)
+        {
+            return x + y;
+        } //end PlusMethodDouble
+
+    } //end class
+
+}// end namespace
