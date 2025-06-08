@@ -1,0 +1,489 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO; //this namespace allows us to work with files
+
+namespace ATM
+{
+    //Implement the BankAccountOperation class
+    class BankAccountOperation
+    {
+        //Create a private data field named accounts, which is an array of BankAccount objects
+        private BankAccount[] accounts;
+
+        //Constructor
+        public BankAccountOperation()
+        {
+            accounts = new BankAccount[20]; //20 entries in the text file
+            Run();
+        } //end BankAccountOperation
+        public void Run()
+        {
+            ReadBankAccountData(); //call method, reads from the text file
+            DisplayMenu(); //display menu
+            while (true) {
+                int opt = 0; //option is 0 by default for menu
+                Console.WriteLine();
+                Console.Write("Select an option: ");
+                //If user selects a number outside the 1-6 range
+                if (!int.TryParse(Console.ReadLine(), out opt) || (opt < 0 || opt > 6))
+                {
+                    Console.WriteLine("Invalid option. Must be 1 - 6 (or 0 for menu).");
+                    continue;
+                } //end if
+                switch (opt)
+                {
+                    case 0:
+                        DisplayMenu();
+                        break;
+                    case 1:
+                        DoDeposit();
+                        break;
+                    case 2:
+                        DoWithdraw();
+                        break;
+                    case 3:
+                        DisplayHighestBalanceAccount();
+                        break;
+                    case 4:
+                        DisplayMostActiveAccount();
+                        break;
+                    case 5:
+                        DisplayAllAccounts();
+                        break;
+                    case 6:
+                        Farewell();
+                        return;
+                } //end switch
+            } //end while
+        } //end Run
+        public void ReadBankAccountData()
+        {
+            //Use the StreamReader to load data from the file and assign content to the array of objects "accounts"
+            StreamReader sr = new StreamReader("Data.txt");
+            string line = sr.ReadLine(); //reads each line of info from text file
+            string[] strs; //holds info about each customer
+            int idx = 0; //keeps track of the position of array elements
+
+            //Use a loop to read from the file line-by-line
+            while (line != null)
+            {
+                //Inside the loop, split the items. Then use the items as arguments to initialise each BankAccount object to the array accounts
+                strs = line.Split(' ');
+                //string firstName, string lastname, int birthYear, int birthMonth, int birthDate, int accID, int accType, double bal
+                BankAccount b = new BankAccount(strs[0], strs[1], int.Parse(strs[2]), int.Parse(strs[3]), int.Parse(strs[4]),
+                    int.Parse(strs[5]), double.Parse(strs[6]), int.Parse(strs[7]), 0); //create instance of BankAccount object
+                accounts[idx] = b; //fill the 'customers' array
+                line = sr.ReadLine(); //read the next line of client info
+                idx++; //advance to the next element in the array
+            } //end while
+            sr.Close(); //close the streamreader instance
+        } //end ReadBankAccountData
+
+        //Option 1
+        void DoDeposit()
+        {
+            Console.WriteLine("--------------------Deposit--------------------");
+            //Ask the user for the ID of the bank account to deposit into
+            Console.Write("Enter bank account ID: ");
+            int bankID = int.Parse(Console.ReadLine()); //user enters bank ID number
+            bool userExists = false; //user does not exist by default
+
+            foreach (BankAccount ba in accounts)
+            {
+                if (bankID == ba.AccountId) //deposit money
+                {
+                    //Displays balance from public Balance method in BankAccount class
+                    Console.WriteLine("Your bank account balance is " + ba.Balance);
+                    Console.Write("Enter deposit amount: ");
+                    double dAmt = double.Parse(Console.ReadLine()); //user inputs amount to deposit
+                    bool depValid = ba.Deposit(dAmt); //call deposit method from BankAccount class
+                    if (depValid == false)
+                    {
+                        Console.WriteLine("Error. Deposit failed");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Deposit successful. You have deposited $" + dAmt);
+                        Console.WriteLine("Your balance is now " + ba.Balance);
+                    }
+                    userExists = true;
+                    break;
+                } //end if
+            } //end foreach
+            if (!userExists)
+            {
+                Console.WriteLine("User not found");
+            }
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadLine();
+            DisplayMenu(); //display menu
+        } //end DoDeposit
+
+        //Option 2
+        void DoWithdraw()
+        {
+            Console.WriteLine("--------------------Withdraw--------------------");
+            //Ask the user for the ID of the bank account to deposit into
+            Console.Write("Enter bank account ID: ");
+            int bankID = int.Parse(Console.ReadLine()); //user enters bank ID number
+            bool userExists = false; //user does not exist by default
+
+            foreach (BankAccount ba in accounts)
+            {
+                if (bankID == ba.AccountId) //withdraw money
+                {
+                    //Displays balance from public Balance method in BankAccount class
+                    Console.WriteLine("Your bank balance is: " + ba.Balance);
+                    Console.Write("Enter withdraw amount: ");
+                    double wAmt = double.Parse(Console.ReadLine()); //user inputs amount to withdraw
+                    bool witValid = ba.Withdraw(wAmt); //call withdraw method from BankAccount class
+                    if (witValid == false)
+                    {
+                        Console.WriteLine("Error, withdraw failed. You don't have enough funds in your bank account to withdraw that much.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Withdraw successful. You have withdrawn $" + wAmt);
+                        Console.WriteLine("Your balance is now: " + ba.Balance);
+                    }
+                    userExists = true;
+                    break;
+                } //end if
+            } //end foreach
+            if (!userExists)
+            {
+                Console.WriteLine("User not found");
+            }
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadLine();
+            DisplayMenu(); //display menu
+        } //end DoWithdraw
+
+        //Option 3
+        void DisplayHighestBalanceAccount()
+        {
+            double highest = 0.0; //to hold the highest
+
+            Console.WriteLine("--------------------Display Highest Balance Account--------------------");
+            foreach (BankAccount ba in accounts) //finds the highest balance among all customer accounts
+            {
+                if (ba.Balance > highest)
+                {
+                    highest = ba.Balance;
+                }
+            } //end foreach
+            foreach (BankAccount displayHighest in accounts) //gets Balance method from BankAccount class
+            {
+                if (displayHighest.Balance == highest)
+                {
+                    displayHighest.DisplayInfo(); //gets DisplayInfo method from BankAccount class
+                    break;
+                }
+            } //end foreach
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadLine();
+            DisplayMenu(); //display menu
+        } //end DisplayHighestBalanceAccount
+
+        //Option 4
+        void DisplayMostActiveAccount()
+        {
+            Console.WriteLine("--------------------Display Most Active Account--------------------");
+            int counter = 0;
+            BankAccount mostActive = new BankAccount();
+
+            foreach (BankAccount ba in accounts)
+            {
+                if (counter < ba.TransactionCounter)
+                {
+                    counter = ba.TransactionCounter;
+                    mostActive = ba;
+                }
+            } //end foreach
+            Console.WriteLine("The most active account is: \n");
+            mostActive.DisplayInfo(); //gets DisplayInfo method from BankAccount class
+            Console.WriteLine("\nPress any key to continue...");
+            Console.ReadLine();
+            DisplayMenu(); //display menu
+        } //end DisplayMostActiveAccount
+
+        //Option 5
+        void DisplayAllAccounts()
+        {
+            Console.WriteLine("--------------------Display All Accounts--------------------");
+            foreach (BankAccount ba in accounts)
+            {
+                Console.WriteLine("--------------------");
+                ba.DisplayInfo(); //gets DisplayInfo method from BankAccount class
+                Console.WriteLine("");
+            } //end foreach
+            DisplayMenu(); //display menu
+        } //end DisplayAllAccounts
+
+        //Option 6
+        void Farewell()
+        {
+            Console.WriteLine("\nThanks for using the service. Bye!");
+        } //end Farewell
+        void DisplayMenu()
+        {
+            Console.WriteLine("\n----------------------------------------");
+            Console.WriteLine("ATM Banking");
+            Console.WriteLine("----------------------------------------\n");
+            Console.WriteLine("1. Deposit");
+            Console.WriteLine("2. Withdraw");
+            Console.WriteLine("3. Display Highest Balance Account");
+            Console.WriteLine("4. Display Most Active Account");
+            Console.WriteLine("5. Display All Accounts");
+            Console.WriteLine("6. Exit");
+        } //end DisplayMenu
+    } //end BankAccountOperation class
+}
+
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+
+namespace ATM
+{
+    //Implement the BankAccount class which inherits from the Person class
+    class BankAccount : Person //derived class
+    {
+        /*
+         * Create fields with a private access modifier. These are only accessible within the BankAccount class
+         * Encapsulation is to make sure that sensitive data is hidden from users, hence why the following fields are private
+         */
+        private int accountID;
+        private double balance;
+        private int accountType;
+        private int transactionCounter = 0; //variable is only incremented when a withdrawl/deposit is successful
+
+        /*
+         * Create public methods for private data fields and use getter/setter methods. This must be done to access and update the value of a private data field
+         * Getter (or Accessor): Reports the current values stored in private data fields. Getters are interfaces for outside objects to obtain information hidden inside an object
+         * Setter (or Mutator): Sets or changes the values stored in private data fields. Setters are interfaces for outside objects to modify state of an object
+         */
+
+        //property AccountId
+        public int AccountId
+        {
+            get {
+                return accountID;
+            }
+            set {
+                accountID = value; //assigns value to the accountID variable
+            }
+        } //end AccountId
+
+        //property Balance
+        public double Balance
+        {
+            get {
+                return balance;
+            }
+            set {
+                balance = value; //assigns value to the balance variable
+            }
+        } //end Balance
+
+        //property AccountType
+        public int AccountType
+        {
+            get {
+                return accountType;
+            }
+            set {
+                accountType = value; //assigns value to the accountType variable
+            }
+        } //end AccountType
+
+        //property TransactionCounter
+        public int TransactionCounter
+        {
+            get {
+                return transactionCounter;
+            }
+            set {
+                transactionCounter = value; //assigns value to the transactionCounter variable
+            }
+        } //end TransactionCounter
+
+        //Default constructor for BankAccount class
+        public BankAccount()
+        {
+
+        }
+
+        //Second constructor for BankAccount class
+        public BankAccount(string fn, string ln, int by, int bm, int bd, int accID, double bal, int accType, int tc) : base(fn, ln, by, bm, bd)
+        {
+            //Use fields from constructor and match them with private data fields above
+            accountID = accID;
+            balance = bal;
+            accountType = accType;
+            transactionCounter = tc;
+        } //end BankAccount
+
+        //Create a class constructor for the BankAccount class. Contains parameters from the 3 fields above plus the 5 from the 
+        //Person class
+        public BankAccount(int accID, int bal, int accType, string fName, string lName, int bYear, int bMonth, int bDate)
+        {
+            accountID = accID;
+            balance = bal;
+            accountType = accType;
+        } //end constructor
+
+        //Displays client's account ID, type and balance. Overrides DisplayInfo() in Person class
+        public override void DisplayInfo()
+        {
+            base.DisplayInfo();
+        } //end DisplayInfo
+
+        //Method that allows client to deposit money. Also deducts transaction fee according to account type
+        public bool Deposit(double depAmt)
+        {
+            bool validAccount = false; //valid account does not exist by default
+            balance += depAmt; //deposit cash
+
+            //Decides what account type the client has and the resulting transaction fee
+            if (accountType == 0) //Regular account
+            {
+                balance -= 3.5; //fee is $3.50
+                Console.WriteLine("Fee will be $3.50");
+            }
+            if (accountType == 1) //Premium account
+            {
+                balance -= 1.0; //fee is $1.00
+                Console.WriteLine("Fee will be $1");
+            }
+            if (balance < 0)
+            {
+                balance -= depAmt; //deposit amount removed from balance
+                validAccount = false;
+            } else {
+                validAccount = true;
+                transactionCounter++; //transaction is valid so transactionCounter increased
+            }
+            return validAccount;
+        } //end Deposit
+
+        //Method that allows client to withdraw funds if they have enough money. Also deducts transaction fee to account type
+        public bool Withdraw(double witAmt)
+        {
+            bool validWithdraw = false; //withdraw is false by default
+            double fee = 0.00;
+
+            //Decides what account type the client has and the resulting transaction fee
+            if (accountType == 0)
+            {
+                fee = 3.5; //fee is $3.50
+                Console.WriteLine("Fee will be $3.50");
+            }
+            if (accountType == 1)
+            {
+                balance -= 1.0; //fee is $1.00
+                Console.WriteLine("Fee will be $1");
+            }
+
+            //Check if client has enough funds to withdraw cash
+            //If withdrawal is valid, then 'valudWithdraw' = true, else 'validWithdraw' = false
+            if ((balance - witAmt - fee) >= 0)
+            {
+                balance -= (fee + witAmt);
+                validWithdraw = true;
+                transactionCounter++;
+            }
+            return validWithdraw;
+        } //end Withdraw
+
+    } //end BankAccount class
+}
+
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+
+namespace ATM
+{
+    //Implement the Person class
+    class Person //base class
+    {
+        /*
+         * Create fields with a public access modifier. These are accessible for all classes
+         * These are automatic properties (short hand) where only get and set are used, therefore using less code
+         */
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public int birthYear { get; set; }
+        public int birthMonth { get; set; }
+        public int birthDate { get; set; }
+
+        /*
+         * Default constructor for Person Class
+         * A parameterless constructor that takes 0 arguments and initialises all fields to their default values (initialises an object when it's called)
+         * Constructor name must be exactly the same as the class name
+         * Returns an object but doesn't require a returning value
+        */
+        public Person() //null constructor
+        {
+
+        }
+
+        //Second constructor that takes 5 arguments and sets the 5 private fields using those arguments
+        public Person(string fn, string ln, int by, int bm, int bd)
+        {
+            firstName = fn;
+            lastName = ln;
+            birthYear = by;
+            birthMonth = bm;
+            birthDate = bd;
+        } //end Person
+
+        //A public method that outputs the 5 fields. This method meeds to be declared as virtual so that it can be overridden by 
+        //derived classes
+        public virtual void DisplayInfo()
+        {
+            Console.WriteLine("First name: {0} \tLast name: {1} \nBirth Year: {2} \tBirth Month: {3} \t\tBirth Date: {4}", 
+                firstName, lastName, birthYear, birthMonth, birthDate);
+        } //end DisplayInfo
+    } //end Person class
+}
+
+
+
+
+using System;
+using System.IO;
+
+/*
+ * Originally created: 15/10/2014
+ * Last updated: 12/01/2023
+ * Author: Hamish Mitchell
+ * 
+ * Create a program that will allow users to deposit or withdraw money from an ATM. Also allows user to see the account with the highest
+ * balance, who is most active and display all accounts.
+ */
+
+namespace ATM
+{
+    //Create an entry-point class called "UI", user interface
+    class UI
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Welcome user"); //outputs greeting to user
+            //Starts up a new ATM transaction, creates an instance of the BankAccountOperation object
+            new BankAccountOperation();
+            Console.Read();
+        } //end main
+    } //end UI class
+}
