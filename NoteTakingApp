@@ -1,0 +1,131 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+/*
+ * Created: 8/07/2023 最初创造日期：2023年7月8日
+ * Author: Hamish Mitchell 作者：米良
+ */
+
+namespace NoteTakingApp
+{
+    public partial class NoteTaker : Form
+    {
+        /* The first time to do is create a globally accessible variable at the top of the class. This will act 
+         * as the backend for our data grid view (previousNotes) as the data grid view operates on having some 
+         * sort of data set to display. This will be created by using this DataTable
+         */
+        DataTable notes = new DataTable();
+        //The bool variable will be in charge of keeping track of whether we're editing the note or not
+        bool editing = false;
+
+        /********************Form********************/
+        public NoteTaker()
+        {
+            InitializeComponent();
+        } //end NoteTaker()
+
+        private void NoteTaker_Load(object sender, EventArgs e)
+        {
+            notes.Columns.Add("Title"); //this will be the title of the notes
+            notes.Columns.Add("Note"); //we now have a title and notes for each entry in the data table
+            /* The data grid view (previousNotes) needs to be set. Need to set the data source equal to the table 
+             * we created in the backend. That way it points to the data source and knows what we're editing so 
+             * we can update our display.
+             */
+            previousNotes.DataSource = notes;
+        } //end NoteTaker_Load()
+
+        /********************Buttons********************/
+
+        /**********Load button**********/
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            /* When the Load button is clicked, this will simply bring up the notes we already have stored. We 
+             * need to fill up our 2 text boxes with the info from the note, so we open up the row with the 2 
+             * text boxes (title and note). Both need to be converted to text using ToString()
+             */
+            titleBox.Text = notes.Rows[previousNotes.CurrentCell.RowIndex].ItemArray[0].ToString();
+            noteBox.Text = notes.Rows[previousNotes.CurrentCell.RowIndex].ItemArray[1].ToString();
+            /* The other thing to do is set our bool editing variable because by loading the note, they may intend 
+             * to edit it
+             */
+            editing = true;
+        } //end loadButton_Click()
+
+        /**********Delete button**********/
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            /* The first thing we need is a try/catch block is because there's no guarantee that the user is 
+             * currently clicking on a note in the data grid view. We need to handle that certain case so the 
+             * goal is that there will be notes there, they'll be able to click on it and will want to delete 
+             * the current note. If for some reason there's no valid one, we don't want to delete something 
+             * that is null so we add a catch block
+             */
+            try
+            {
+                /* Access the rows in the data table.
+                 * [data grid view.current cell the user has selected.references the index in the data grid view]
+                 * Add Delete() so it deletes the note from the notes data table object based on whatever index 
+                 * the user has clicked on.
+                 */
+                notes.Rows[previousNotes.CurrentCell.RowIndex].Delete();
+            }
+            catch(Exception ex) {
+                /* displays this instead of an error message because we know that the user likely clicked on 
+                 * something that's not valid
+                 */
+                Console.WriteLine("Not a valid note");
+            }
+        } //end deleteButton_Click()
+
+        /**********New Note button**********/
+        private void newNoteButton_Click(object sender, EventArgs e)
+        {
+            /* When the New Note button is clicked, both text boxes should show nothing by default so we can 
+             * write text from scratch
+             */
+            titleBox.Text = "";
+            noteBox.Text = "";
+        } // endnewNoteButton_Click()
+
+        /**********Save button**********/
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (editing)
+            {
+                /* If they have made changes to the note and click Save, they want to save their current changes 
+                 * and override the old ones
+                 */
+                //index title equal to whatever is inside the titleBox
+                notes.Rows[previousNotes.CurrentCell.RowIndex]["Title"] = titleBox.Text;
+                //index note equal to whatever is inside the noteBox
+                notes.Rows[previousNotes.CurrentCell.RowIndex]["Note"] = noteBox.Text;
+            }
+            //If editing is not true, we want to save whatever is in the current note
+            else
+            {
+                //Adding a brand new entry
+                notes.Rows.Add(titleBox.Text, noteBox.Text); //saves both entries and puts them into the item arrays of 0 and 1
+            }
+            //Because the user clicks the Save button, wipe out the note they just had so it clears up the text
+            titleBox.Text = "";
+            noteBox.Text = "";
+            editing = false; //user is done editing
+        } //end saveButton_Click()
+
+        private void previousNotes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //Identical to the code in the Load button
+            titleBox.Text = notes.Rows[previousNotes.CurrentCell.RowIndex].ItemArray[0].ToString();
+            noteBox.Text = notes.Rows[previousNotes.CurrentCell.RowIndex].ItemArray[1].ToString();
+            editing = true;
+        } //end previousNotes_CellDoubleClick()
+    } //end class
+}
