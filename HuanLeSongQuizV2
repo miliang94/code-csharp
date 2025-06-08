@@ -1,0 +1,185 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+/*
+ * Created: 18/07/2023 最初创造日期：2023年7月18日
+ * Updated: 21/07/2023 更新：2023年7月21日
+ * Author: Hamish Mitchell 作者：米良
+ */
+
+namespace QuizGame
+{
+    public partial class quizGame : Form
+    {
+        //quiz game variables
+        int correctAnswer;
+        int wrongAnswer;
+        int questionNumber = 1;
+        int score;
+        int percentage;
+        int totalQuestions;
+
+        public quizGame()
+        {
+            InitializeComponent(); //allows us to use all the forms features (buttons, labels, images)
+            askQuestion(questionNumber);
+            totalQuestions = 10;
+        } //end quizGame()
+
+        //This event will trigger when any of the buttons are selected
+        private void checkAnswerEvent(object sender, EventArgs e)
+        {
+            var senderObject = (Button)sender;
+            //Convert button tags from string to int
+            int buttonTag = Convert.ToInt32(senderObject.Tag);
+
+            if(buttonTag == correctAnswer)
+            {
+                score++; //add 1 to score if user answers question correctly
+            } //end if
+            if (buttonTag != correctAnswer)
+            {
+                wrongAnswer++; //add 1 to score if user answers question incorrectly
+            } //end if
+
+            if (questionNumber == totalQuestions)
+            {
+                //Work out the percentage first
+                percentage = (int)Math.Round((double)(score*100)/totalQuestions);
+                MessageBox.Show(
+                    "Quiz Ended!" + Environment.NewLine + 
+                    "You have answered " + score + " questions correctly and " + wrongAnswer + 
+                    " incorrectly." + Environment.NewLine +
+                    "Your total percentage is " + percentage + "%" + Environment.NewLine +
+                    "Click OK to play again"            //leave spaces
+                    );
+                //When user plays quiz again, reset the values
+                score = 0;
+                wrongAnswer = 0;
+                questionNumber = 0;
+                askQuestion(questionNumber);
+            } //end if
+
+            //If the user answers the question wrong, it will move into the next one. It won't add to the score
+            questionNumber++;
+            askQuestion(questionNumber);
+        } //end checkAnswerEvent
+
+        //Create custom function that takes 1 argument, this will run anytime we want the app to ask any question
+        //Declare question number int. This is so that each time the number changes a different question appears
+        private void askQuestion(int qnum)
+        {
+            //questions will be organised through a switch statement
+            switch (qnum)
+            {
+                //Question 1
+                case 1:
+                    pictureBoxQ1.Image = Properties.Resources.quizgame;
+                    labelQuestionNo.Text = "Question 1";
+                    labelQuestion.Text = "What city is the TV series set in?";
+                    button1.Text = "Beijing";
+                    button2.Text = "Shanghai"; //correct
+                    button3.Text = "Guangzhou";
+                    correctAnswer = 2; //compare answer with button tag number
+                    break; //must include break so program can stop when condition is met
+                //Question 2
+                case 2:
+                    //pictureBoxQ1.Image = Properties.Resources.quizgame;
+                    labelQuestionNo.Text = "Question 2";
+                    labelQuestion.Text = "Where does Qiu Yingying work after losing her office job?";
+                    button1.Text = "Cafe"; //correct
+                    button2.Text = "Book shop";
+                    button3.Text = "Post office";
+                    correctAnswer = 1;
+                    break;
+                //Question 3
+                case 3:
+                    //pictureBoxQ1.Image = Properties.Resources.quizgame;
+                    labelQuestionNo.Text = "Question 3";
+                    labelQuestion.Text = "Qu Xiaoxiao's boyfriend does what occupation?";
+                    button1.Text = "Engineer";
+                    button2.Text = "Doctor"; //correct
+                    button3.Text = "Teacher";
+                    correctAnswer = 2;
+                    break;
+                //Question 4
+                case 4:
+                    //pictureBoxQ1.Image = Properties.Resources.quizgame;
+                    labelQuestionNo.Text = "Question 4";
+                    labelQuestion.Text = "How many episodes are in the second season?";
+                    button1.Text = "45";
+                    button2.Text = "50";
+                    button3.Text = "55"; //correct
+                    correctAnswer = 3;
+                    break;
+                //Question 5
+                case 5:
+                    //pictureBoxQ1.Image = Properties.Resources.quizgame;
+                    labelQuestionNo.Text = "Question 5";
+                    labelQuestion.Text = "Which girl's family resides in Nantong?";
+                    button1.Text = "Guan Juer";
+                    button2.Text = "Andy";
+                    button3.Text = "Fan Shengmei"; //correct
+                    correctAnswer = 3;
+                    break;
+                //Question 6
+                case 6:
+                    pictureBoxQ1.Image = Properties.Resources.question6;
+                    labelQuestionNo.Text = "Question 6";
+                    labelQuestion.Text = "In the first season who does Guan Juer develop a crush on?";
+                    button1.Text = "Zhao Qiping"; //correct
+                    button2.Text = "Brother Lin";
+                    button3.Text = "Wang Baichuan";
+                    correctAnswer = 1;
+                    break;
+                //Question 7
+                case 7:
+                    //pictureBoxQ1.Image = Properties.Resources.quizgame;
+                    labelQuestionNo.Text = "Question 7";
+                    labelQuestion.Text = "How many of the five women live in room 2202?";
+                    button1.Text = "1";
+                    button2.Text = "2";
+                    button3.Text = "3"; //correct
+                    correctAnswer = 3;
+                    break;
+                //Question 8
+                case 8:
+                    //pictureBoxQ1.Image = Properties.Resources.quizgame;
+                    labelQuestionNo.Text = "Question 8";
+                    labelQuestion.Text = "As a child where was Andy taken abroad for adoption?";
+                    button1.Text = "Canada";
+                    button2.Text = "USA"; //correct
+                    button3.Text = "Singapore";
+                    correctAnswer = 2;
+                    break;
+                //Question 9
+                case 9:
+                    //pictureBoxQ1.Image = Properties.Resources.quizgame;
+                    labelQuestionNo.Text = "Question 9";
+                    labelQuestion.Text = "Fan Shengmei's character is played by which actress?";
+                    button1.Text = "Jiang Xin"; //correct
+                    button2.Text = "Wang Ziwen";
+                    button3.Text = "Liu Tao";
+                    correctAnswer = 1;
+                    break;
+                //Question 10
+                case 10:
+                    pictureBoxQ1.Image = Properties.Resources.question10;
+                    labelQuestionNo.Text = "Question 10";
+                    labelQuestion.Text = "And finally, who is my favourite of the main characters?";
+                    button1.Text = "Guan Juer"; //correct
+                    button2.Text = "Qu Xiaoxiao";
+                    button3.Text = "Qiu Yingying";
+                    correctAnswer = 1;
+                    break;
+            } //end switch
+        } //end askQuestion()
+    } //end quizGame form
+}
