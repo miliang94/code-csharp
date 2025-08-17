@@ -1,0 +1,61 @@
+using System;
+
+/*
+ * Created: 9/10/2022
+ * Author: Hamish Mitchell
+ * Source: Wintec ITB5131 C# course book (pg108-109)
+ */
+
+namespace Sec07Ex04
+{
+    class MyMain
+    {
+        //Program that manipulates arrays and strings
+        static void Main(string[] args)
+        {
+            string[] frenchDaysOfWeek = new string[7];
+            string[] englishDaysOfWeek = new string[7];
+            int score = 0;
+            string answer;
+
+            //Set their values
+            frenchDaysOfWeek[0] = "Lundi";
+            frenchDaysOfWeek[1] = "Mardi";
+            frenchDaysOfWeek[2] = "Mercredi";
+            frenchDaysOfWeek[3] = "Jeudi";
+            frenchDaysOfWeek[4] = "Vendredi";
+            frenchDaysOfWeek[5] = "Samedi";
+            frenchDaysOfWeek[6] = "Dimanche";
+
+            englishDaysOfWeek[0] = "Monday";
+            englishDaysOfWeek[1] = "Tuesday";
+            englishDaysOfWeek[2] = "Wednesday";
+            englishDaysOfWeek[3] = "Thursday";
+            englishDaysOfWeek[4] = "Friday";
+            englishDaysOfWeek[5] = "Saturday";
+            englishDaysOfWeek[6] = "Sunday";
+
+            //Ask questions, get response and increase score if answer is correct
+            Console.WriteLine("Program to guess the day");
+            Console.WriteLine("Give the day in French, guess the day in English");
+            Console.WriteLine("Use a capital letter for the first letter of the day\n");
+
+            int dayNum = 0;
+            Random rnd = new Random(); //creates a random number generator object
+            for (int i = 0; i < 7; i++)
+            {
+                dayNum = rnd.Next(0, 6); //gets a random number from 0 to 6
+                Console.WriteLine("Enter in the English equivalent for: " + frenchDaysOfWeek[dayNum]);
+                answer = Console.ReadLine();
+                if (answer == englishDaysOfWeek[i])
+                {
+                    //answer is correct
+                    score = score + 1;
+                } //end if
+            } //end for
+
+            //Give feedback
+            Console.WriteLine("Your score was " + score);
+        } //end main
+    } //end class
+}
