@@ -1,0 +1,102 @@
+using System;
+
+/*
+ * Created: 3/10/2022
+ * Author: Hamish Mitchell
+ * Source: Wintec ITB5131 C# course book (pg87-90)
+ */
+
+namespace Sec06Ex01
+{
+    class MyMain
+    {
+        static void Main(string[] args)
+        {
+            Rectangle r = new Rectangle(); //create an instance of the Object
+
+            Console.WriteLine("Hello World!");
+            Console.WriteLine("Displaying the properties of the Rectangle object\n");
+            Console.WriteLine("Length: " + r.Length);
+            Console.WriteLine("Width: " + r.Width);
+
+            //Setting object properties using two possibilities
+            Console.WriteLine("\nSetting the values of the Object");
+            Console.WriteLine("Enter a Length");
+            double l = double.Parse(Console.ReadLine());
+            r.Length = l;
+            Console.WriteLine("Enter a Width");
+            r.Width = double.Parse(Console.ReadLine());
+            Console.WriteLine("Displaying the properties of the Rectangle object\n");
+            Console.WriteLine("Length: " + r.Length);
+            Console.WriteLine("Width: " + r.Width);
+            Console.WriteLine("Area: " + r.Area());
+            Console.WriteLine("Perimeter: " + r.Perimeter());
+        } //end main
+    } //end class
+}
+
+
+
+
+
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Sec06Ex01
+{
+    class Rectangle
+    {
+        private double length; //data member (property) length
+        private double width; //data member (property) width
+
+        //summary
+
+        //constructor
+
+        public Rectangle()
+        {
+            //set a default size rectangle object to length 10 and width 20
+            length = 10;
+            width = 20;
+        }
+
+        //property Length
+        public double Length
+        {
+            get
+            {
+                return length;
+            }
+            set
+            {
+                length = value;
+            }
+        } //end Length
+
+        //property Width
+        public double Width
+        {
+            get
+            {
+                return width;
+            }
+            set
+            {
+                width = value;
+            }
+        } //end Width
+
+        //Extending the Rectangle Object
+        public double Area()
+        {
+            return length * width;
+        }
+
+        public double Perimeter()
+        {
+            return 2 * (length + width);
+        }
+    } //end class
+}
